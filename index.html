@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>餓死鬼｜中西美食介紹</title>
+
+  <style>
+    :root{
+      --primary:#f4a261;
+      --primary2:#e76f51;
+      --nav:#f7c59f;
+      --teal:#2a9d8f;
+      --teal2:#21867a;
+      --dark:#264653;
+      --bg:#f8f8f8;
+      --cardShadow:0 2px 8px rgba(0,0,0,0.1);
+      --cardShadow2:0 1px 6px rgba(0,0,0,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ===== 進站橫幅（封面） ===== */
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      color: #fff;
+      text-align: center;
+    }
+
+    #intro .intro-card{
+      width: min(720px, 92vw);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 18px;
+      padding: 28px 22px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+      backdrop-filter: blur(6px);
+    }
+
+    #intro h1{
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 1px;
+    }
+
+    #intro p{
+      margin: 0 0 18px;
+      opacity: 0.95;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    #intro .start-btn{
+      background-color: var(--teal);
+      color: #fff;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+      transition: transform .12s ease, background-color .12s ease;
+    }
+    #intro .start-btn:hover { background-color: var(--teal2); transform: translateY(-1px); }
+    #intro .hint{
+      margin-top: 12px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    /* ===== 固定 Logo（左上角） ===== */
+    .logo {
+      position: fixed;
+      top: 14px;
+      left: 16px;
+      z-index: 1500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 8px 12px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      cursor: pointer;
+      user-select: none;
+    }
+    .logo .mark{
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      color: #fff;
+      font-weight: bold;
+    }
+    .logo .text{
+      font-weight: bold;
+      color: #222;
+      font-size: 15px;
+      line-height: 1;
+    }
+    .logo .sub{
+      font-size: 11px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    /* ===== 主要內容 ===== */
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2em;
+    }
+
+    nav {
+      background-color: var(--nav);
+      text-align: center;
+      padding: 12px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 900;
+    }
+    nav a {
+      color: #333;
+      text-decoration: none;
+      margin: 0 14px;
+      font-weight: bold;
+    }
+    nav a:hover { text-decoration: underline; }
+
+    section {
+      padding: 30px;
+      background-color: #fff;
+      margin: 20px auto;
+      border-radius: 12px;
+      max-width: 900px;
+      box-shadow: var(--cardShadow);
+    }
+
+    h2 {
+      color: var(--primary2);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+      margin-top: 0;
+    }
+
+    .food-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      width: 260px;
+      text-align: center;
+      padding: 10px;
+      box-shadow: var(--cardShadow2);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 12px;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      margin: 10px 0 6px;
+      color: #333;
+    }
+
+    .card p {
+      color: #666;
+      font-size: 14px;
+      margin: 0 0 6px;
+      line-height: 1.5;
+    }
+
+    button {
+      background-color: var(--teal);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    button:hover { background-color: var(--teal2); }
+
+    footer {
+      background-color: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      margin-top: 30px;
+    }
+
+    /* ===== 食譜彈窗（比 alert 更像網站） ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1800;
+      padding: 18px;
+    }
+    .modal-content {
+      background: #fff;
+      max-width: 520px;
+      margin: 10vh auto 0;
+      border-radius: 16px;
+      padding: 18px 18px 14px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+    .modal-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 8px;
+    }
+    .close {
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: #f3f3f3;
+      border: 1px solid #e6e6e6;
+    }
+    .close:hover{ background:#ececec; }
+
+    #recipeTitle{ margin: 0; color: #222; }
+    #recipeText{
+      white-space: pre-line;
+      color:#444;
+      margin: 10px 0 0;
+      line-height: 1.7;
+    }
+
+    /* RWD */
+    @media (max-width: 600px) {
+      section { margin: 14px 12px; padding: 20px; }
+      header h1 { font-size: 1.8em; }
+      nav a { margin: 0 10px; }
+      .logo { top: 10px; left: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 進站橫幅 -->
+  <div id="intro">
+    <div class="intro-card">
+      <h1>🍴 餓死鬼</h1>
+      <p>中西美食介紹｜精選食譜 & 餐廳推薦<br>吃飽才有力氣讀書 😋</p>
+      <button class="start-btn" onclick="enterSite()">▶ 點擊開始</button>
+      <div class="hint">（按下開始後進入網站內容）</div>
+    </div>
+  </div>
+
+  <!-- 左上角 Logo -->
+  <div class="logo" onclick="scrollToTop()" title="回到頂端">
+    <div class="mark">🍴</div>
+    <div>
+      <div class="text">餓死鬼</div>
+      <div class="sub">Food Picks</div>
+    </div>
+  </div>
+
+  <header>
+    <h1>🍴 餓死鬼｜中西美食介紹 🍜</h1>
+  </header>
+
+  <nav>
+    <a href="#recipes">食譜</a>
+    <a href="#restaurants">推薦餐廳</a>
+    <a href="#about">關於我們</a>
+  </nav>
+
+  <!-- 食譜區 -->
+  <section id="recipes">
+    <h2>🍲 精選食譜 Recipes</h2>
+
+    <div class="food-card">
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Kung_Pao_Chicken.jpg" alt="宮保雞丁">
+        <h3>宮保雞丁</h3>
+        <p>中式經典辣味料理，香辣下飯。</p>
+        <button onclick="showRecipe('kungpao')">查看食譜</button>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Carbonara_1.jpg" alt="卡邦那義大利麵">
+        <h3>卡邦那義大利麵</h3>
+        <p>濃郁起司與培根香氣的義式代表。</p>
+        <button onclick="showRecipe('carbonara')">查看食譜</button>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Margherita_Pizza.jpg" alt="瑪格麗特披薩">
+        <h3>瑪格麗特披薩</h3>
+        <p>番茄、起司與羅勒的經典三重奏。</p>
+        <button onclick="showRecipe('pizza')">查看食譜</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 餐廳推薦區 -->
+  <section id="restaurants">
+    <h2>🏠 推薦餐廳 Restaurants</h2>
+
+    <div class="food-card">
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Taipei_street_food.jpg" alt="小巷牛肉麵">
+        <h3>小巷牛肉麵</h3>
+        <p>台北市中正區巷內牛肉麵老店，湯頭濃郁。</p>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Italian_restaurant_interior.jpg" alt="Roma Trattoria">
+        <h3>Roma Trattoria</h3>
+        <p>義式餐廳推薦，卡邦那與瑪格麗特披薩最受歡迎。</p>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Scallion_pancake.jpg" alt="餅香坊">
+        <h3>餅香坊</h3>
+        <p>平價美味的蔥油餅小吃店。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 關於 -->
+  <section id="about">
+    <h2>👨‍🍳 關於餓死鬼</h2>
+    <p>
+      「餓死鬼」是一個簡約風格的美食網站，融合中西料理介紹、食譜與餐廳推薦。<br>
+      每個料理都能查看詳細步驟，讓你在家也能輕鬆上桌！
+    </p>
+  </section>
+
+  <footer>
+    © 2025 餓死鬼．中西美食介紹 — 吃飽才有力氣讀書 😋
+  </footer>
+
+  <!-- 食譜彈窗 -->
+  <div id="recipeModal" class="modal" onclick="clickMaskClose(event)">
+    <div class="modal-content">
+      <div class="modal-top">
+        <h3 id="recipeTitle"></h3>
+        <span class="close" onclick="closeModal()">×</span>
+      </div>
+      <p id="recipeText"></p>
+    </div>
+  </div>
+
+  <script>
+    // 進站：點擊開始 -> 關閉橫幅
+    function enterSite() {
+      const intro = document.getElementById("intro");
+      intro.style.display = "none";
+    }
+
+    // Logo：回到頂端
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // 食譜資料
+    const recipes = {
+      kungpao: {
+        title: "宮保雞丁",
+        text:
+`1. 雞胸/雞腿切丁，加醬油、米酒、太白粉醃 10 分鐘。
+2. 熱鍋下油，爆香花椒、乾辣椒、蒜末（小火避免焦）。
+3. 下雞丁炒到變色，加入醬汁（醬油+醋+糖+一點水）。
+4. 加入花生、蔥段，收汁完成。`
+      },
+      carbonara: {
+        title: "卡邦那義大利麵",
+        text:
+`1. 煮麵：水滾加鹽，下義大利麵煮到 8 分熟，留一些麵水。
+2. 煎培根：平底鍋煎到出油微脆。
+3. 醬：蛋黃＋起司（帕瑪森）拌勻，加入少量麵水調成滑順。
+4. 麵倒入鍋中拌培根，離火再拌入蛋起司醬，灑黑胡椒。`
+      },
+      pizza: {
+        title: "瑪格麗特披薩",
+        text:
+`1. 麵糰：麵粉＋酵母＋水＋鹽揉到光滑，發酵至 2 倍大。
+2. 鋪料：抹番茄醬/番茄糊，放莫札瑞拉起司，點綴羅勒。
+3. 烤箱預熱高溫（約 230°C），烤 8–10 分鐘至上色。
+4. 出爐可再淋少量橄欖油。`
+      }
+    };
+
+    // 打開食譜彈窗
+    function showRecipe(key) {
+      const modal = document.getElementById("recipeModal");
+      const title = document.getElementById("recipeTitle");
+      const text = document.getElementById("recipeText");
+
+      const data = recipes[key];
+      if (!data) return;
+
+      title.textContent = data.title;
+      text.textContent = data.text;
+      modal.style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("recipeModal").style.display = "none";
+    }
+
+    // 點到遮罩才關閉（點內容不會關）
+    function clickMaskClose(e){
+      if (e.target.id === "recipeModal") closeModal();
+    }
+
+    // ESC 關閉彈窗
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  </script>
+
+</body>
+</html>
