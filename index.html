@@ -1,27 +1,42 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>餓死鬼｜各國美食品鑑與餐廳評價</title>
 
   <style>
+    :root{
+      --primary:#f4a261;
+      --primary2:#e76f51;
+      --nav:#f7c59f;
+      --teal:#2a9d8f;
+      --teal2:#21867a;
+      --dark:#264653;
+      --bg:#f8f8f8;
+      --shadow:0 2px 10px rgba(0,0,0,0.08);
+      --shadow2:0 1px 8px rgba(0,0,0,0.08);
+      --border:#e8e8e8;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body{
       margin:0;
       font-family: Arial, sans-serif;
-      background:#f8f8f8;
+      background: var(--bg);
+      color:#222;
     }
-    html{scroll-behavior:smooth;}
 
-    /* intro */
+    /* ===== 進站橫幅 ===== */
     #intro{
       position:fixed;
       inset:0;
       z-index:2000;
-      background:#000;
       display:flex;
-      justify-content:center;
       align-items:center;
+      justify-content:center;
+      background:#000;
     }
     #intro img{
       position:absolute;
@@ -31,202 +46,829 @@
       object-fit:cover;
       filter:brightness(0.55);
     }
-    #intro .content{
+    #intro .intro-content{
       position:relative;
-      color:#fff;
-      text-align:center;
       z-index:1;
-    }
-    #intro button{
-      margin-top:14px;
-      padding:12px 18px;
-      border:none;
-      border-radius:10px;
-      background:#2a9d8f;
+      text-align:center;
       color:#fff;
+      padding: 20px;
+      width:min(860px, 92vw);
+    }
+    #intro h1{
+      margin:0 0 8px;
+      font-size: clamp(2.1rem, 4vw, 3rem);
+      letter-spacing:1px;
+    }
+    #intro p{
+      margin:0 0 16px;
+      line-height:1.7;
+      opacity:0.95;
+    }
+    #intro .start-btn{
+      background: var(--teal);
+      color:#fff;
+      border:none;
+      padding:12px 18px;
+      border-radius: 12px;
       cursor:pointer;
+      font-weight:bold;
       font-size:16px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.22);
+      transition: transform .12s ease, background-color .12s ease;
+    }
+    #intro .start-btn:hover{ background: var(--teal2); transform: translateY(-1px); }
+    #intro .small{
+      margin-top: 10px;
+      font-size: 13px;
+      opacity:0.9;
     }
 
-    /* logo */
+    /* ===== 左上角 Logo ===== */
     .logo{
-      position:fixed;
-      top:14px;
-      left:16px;
-      z-index:1500;
-      background:rgba(255,255,255,0.9);
-      padding:8px 12px;
-      border-radius:12px;
+      position: fixed;
+      top: 14px;
+      left: 16px;
+      z-index: 1500;
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:10px;
+      background: rgba(255,255,255,0.92);
+      border:1px solid rgba(0,0,0,0.08);
+      padding:8px 10px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
       cursor:pointer;
+      user-select:none;
     }
-    .logo img{height:36px;}
+    .logo img{
+      height: 36px;
+      width: auto;
+      display:block;
+    }
+    .logo .brand{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+    .logo .brand .name{ font-weight:bold; font-size:14px; }
+    .logo .brand .tag{ font-size:11px; color:#666; margin-top:2px; }
 
     header{
-      background:#f4a261;
+      background: var(--primary);
       color:#fff;
       text-align:center;
-      padding:22px;
+      padding: 22px 12px;
+    }
+    header h1{
+      margin:0;
+      font-size: 2rem;
+      letter-spacing: .5px;
     }
 
     nav{
-      background:#f7c59f;
+      background: var(--nav);
       text-align:center;
-      padding:10px;
-      position:sticky;
+      padding: 10px;
+      position: sticky;
       top:0;
+      z-index: 900;
     }
     nav a{
-      margin:0 14px;
-      text-decoration:none;
       color:#333;
+      text-decoration:none;
+      margin: 0 14px;
       font-weight:bold;
+    }
+    nav a:hover{ text-decoration: underline; }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 12px;
     }
 
     section{
-      max-width:980px;
-      margin:20px auto;
       background:#fff;
-      padding:28px;
-      border-radius:14px;
-      box-shadow:0 2px 10px rgba(0,0,0,0.08);
+      margin: 20px auto;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 28px;
     }
 
-    h2{color:#e76f51;}
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin: 0 0 14px;
+    }
+    .section-title h2{
+      margin:0;
+      color: var(--primary2);
+      font-size: 1.45rem;
+    }
+    .rule{
+      height:2px;
+      background: linear-gradient(90deg, var(--primary2), transparent);
+      border-radius:999px;
+      margin: 8px 0 0;
+    }
 
+    /* 卡片 */
     .cards{
       display:flex;
-      gap:18px;
       flex-wrap:wrap;
+      gap: 18px;
       justify-content:center;
+      margin-top: 18px;
     }
+
     .card{
-      width:260px;
-      border:1px solid #e8e8e8;
-      border-radius:12px;
-      padding:12px;
-      text-align:center;
+      width: 260px;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow2);
+      padding: 12px;
+      background:#fff;
+      transition: transform .12s ease, box-shadow .12s ease;
     }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.10);
+    }
+
     .card img{
       width:100%;
-      height:155px;
-      object-fit:cover;
-      border-radius:10px;
+      height: 155px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #f6f6f6;
+      display:block;
     }
+
+    .card h3{
+      margin: 10px 0 6px;
+      font-size: 1.05rem;
+    }
+    .card p{
+      margin: 0 0 10px;
+      color:#666;
+      font-size: 13px;
+      line-height:1.5;
+    }
+
+    .badge-row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    .badge{
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(0,0,0,0.08);
+      background: #fafafa;
+      color:#444;
+    }
+
     .btn{
-      margin-top:8px;
-      padding:8px 12px;
-      border:none;
-      border-radius:8px;
-      background:#2a9d8f;
+      display:inline-block;
+      text-decoration:none;
+      background: var(--teal);
       color:#fff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight:bold;
+      border:none;
       cursor:pointer;
+    }
+    .btn:hover{ background: var(--teal2); }
+
+    .btn-ghost{
+      background:#f2f2f2;
+      color:#333;
+      border:1px solid #e6e6e6;
+    }
+    .btn-ghost:hover{
+      background:#eaeaea;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    /* ===== Modal ===== */
+    .modal{
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index: 1900;
+      background: rgba(0,0,0,0.55);
+      padding: 18px;
+    }
+    .modal .panel{
+      max-width: 760px;
+      margin: 8vh auto 0;
+      background:#fff;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      overflow:hidden;
+    }
+    .modal .panel-head{
+      padding: 14px 16px;
+      background: #fff5ee;
+      border-bottom: 1px solid #f0e3da;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .modal .panel-head h3{
+      margin:0;
+      color:#222;
+      font-size: 1.1rem;
+    }
+    .close{
+      cursor:pointer;
+      padding: 6px 10px;
+      border-radius: 10px;
+      border:1px solid #e6e6e6;
+      background:#fff;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .close:hover{ background:#f3f3f3; }
+    .modal .panel-body{
+      padding: 16px;
+    }
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 820px){
+      .grid2{ grid-template-columns: 1fr; }
+    }
+    .box{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background:#fff;
+    }
+    .box h4{ margin:0 0 8px; }
+    .muted{ color:#666; font-size: 13px; line-height:1.6; }
+
+    /* ===== 評論區 ===== */
+    .review-top{
+      display:flex;
+      gap: 12px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .stat{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color:#444;
+      font-size: 13px;
+    }
+    .pill{
+      background:#fafafa;
+      border:1px solid rgba(0,0,0,0.08);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    form.review-form{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    form.review-form .full{ grid-column: 1 / -1; }
+    input, select, textarea{
+      width:100%;
+      padding: 10px 10px;
+      border:1px solid #e6e6e6;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      background:#fff;
+      box-sizing:border-box;
+    }
+    textarea{ min-height: 92px; resize: vertical; }
+    .form-actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      grid-column: 1 / -1;
+      flex-wrap:wrap;
+    }
+
+    .review-list{
+      margin-top: 14px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .review-item{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      background:#fff;
+    }
+    .review-item .meta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color:#666;
+    }
+    .review-item .meta .left{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .stars{ color:#e76f51; font-weight:bold; }
+    .review-item .text{
+      color:#333;
+      line-height: 1.6;
+      font-size: 14px;
+      white-space: pre-wrap;
     }
 
     footer{
-      background:#264653;
+      margin-top: 26px;
+      background: var(--dark);
       color:#fff;
       text-align:center;
-      padding:14px;
-      margin-top:30px;
+      padding: 14px 10px;
+      font-size: 13px;
     }
   </style>
 </head>
 
 <body>
-
-<!-- intro -->
-<div id="intro">
-  <img src="intro.png" alt="進站橫幅">
-  <div class="content">
-    <h1>🍴 餓死鬼</h1>
-    <p>品鑑各國美食，幫助你找到好吃的 😋</p>
-    <button onclick="enterSite()">▶ 點擊開始</button>
-  </div>
-</div>
-
-<!-- logo -->
-<div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  <img src="logo.png" alt="餓死鬼 Logo">
-  <b>餓死鬼</b>
-</div>
-
-<header>
-  <h1>🍴 餓死鬼｜各國美食品鑑</h1>
-</header>
-
-<nav>
-  <a href="#foods">食譜</a>
-  <a href="#restaurants">餐廳</a>
-  <a href="#about">關於</a>
-</nav>
-
-<section id="foods">
-  <h2>🍲 精選食譜</h2>
-  <div class="cards">
-    <div class="card">
-      <img src="images/kungpao-chicken.jpg" alt="宮保雞丁">
-      <h3>宮保雞丁</h3>
-      <p>香辣下飯的中式經典</p>
-    </div>
-
-    <div class="card">
-      <img src="images/carbonara.jpg" alt="卡邦那義大利麵">
-      <h3>卡邦那義大利麵</h3>
-      <p>濃郁蛋黃起司香氣</p>
-    </div>
-
-    <div class="card">
-      <img src="images/margherita-pizza.jpg" alt="瑪格麗特披薩">
-      <h3>瑪格麗特披薩</h3>
-      <p>番茄、起司、羅勒的經典</p>
+  <!-- 進站橫幅 -->
+  <div id="intro">
+    <img src="intro.png" alt="進站橫幅">
+    <div class="intro-content">
+      <h1>🍴 餓死鬼｜各國美食品鑑</h1>
+      <p>
+        目的：品鑑各國美食，幫助大家尋找美食<br>
+        偏好：好吃的 😋（本網站以「好吃、值得吃」為優先推薦）
+      </p>
+      <button class="start-btn" onclick="enterSite()">▶ 點擊開始</button>
+      <div class="small">（開始後可瀏覽食譜、餐廳位置與留言評價）</div>
     </div>
   </div>
-</section>
 
-<section id="restaurants">
-  <h2>🏠 推薦餐廳</h2>
-  <div class="cards">
-    <div class="card">
-      <img src="images/restaurant-beefnoodle.jpg" alt="小巷牛肉麵">
-      <h3>小巷牛肉麵</h3>
-      <p>湯頭濃郁、牛肉軟嫩</p>
-    </div>
-
-    <div class="card">
-      <img src="images/restaurant-roma.jpg" alt="Roma Trattoria">
-      <h3>Roma Trattoria</h3>
-      <p>義式料理人氣餐廳</p>
-    </div>
-
-    <div class="card">
-      <img src="images/restaurant-bing.jpg" alt="餅香坊">
-      <h3>餅香坊</h3>
-      <p>平價好吃的蔥油餅</p>
+  <!-- 左上角 Logo（點一下回到頂端） -->
+  <div class="logo" onclick="scrollToTop()" title="回到頂端">
+    <img src="logo.png" alt="餓死鬼 Logo">
+    <div class="brand">
+      <div class="name">餓死鬼</div>
+      <div class="tag">找好吃的</div>
     </div>
   </div>
-</section>
 
-<section id="about">
-  <h2>👨‍🍳 關於餓死鬼</h2>
-  <p>
-    目的：品鑑各國美食，幫助人尋找美食。<br>
-    偏好：好吃的。<br>
-    功能：提供美食簡介、餐廳位置與評價參考。
-  </p>
-</section>
+  <header>
+    <h1>🍴 餓死鬼｜中西美食介紹 🍜</h1>
+  </header>
 
-<footer>
-  © 2025 餓死鬼｜各國美食品鑑
-</footer>
+  <nav>
+    <a href="#foods">食譜</a>
+    <a href="#restaurants">推薦餐廳</a>
+    <a href="#about">關於我們</a>
+  </nav>
 
-<script>
-function enterSite(){
-  document.getElementById("intro").style.display="none";
-}
-</script>
+  <div class="wrap">
+    <!-- 食譜 / 各國美食 -->
+    <section id="foods">
+      <div class="section-title">
+        <h2>🍲 精選食譜 Recipes</h2>
+      </div>
+      <div class="rule"></div>
 
+      <div class="cards">
+        <div class="card">
+          <img src="kungpao-chicken.jpg" alt="宮保雞丁">
+          <h3>宮保雞丁</h3>
+          <div class="badge-row">
+            <span class="badge">國家：台灣/中國</span>
+            <span class="badge">口味：香辣</span>
+            <span class="badge">偏好：好吃的</span>
+          </div>
+          <p>中式經典辣味料理，香辣下飯，適合配白飯。</p>
+          <div class="actions">
+            <button class="btn" onclick="openFood('kungpao')">查看簡介</button>
+            <button class="btn btn-ghost" onclick="openFood('kungpao','recipe')">看食譜步驟</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="carbonara.jpg" alt="卡邦那義大利麵">
+          <h3>卡邦那義大利麵</h3>
+          <div class="badge-row">
+            <span class="badge">國家：義大利</span>
+            <span class="badge">口味：濃郁</span>
+            <span class="badge">偏好：好吃的</span>
+          </div>
+          <p>以蛋黃、起司與培根香氣為主，口感滑順。</p>
+          <div class="actions">
+            <button class="btn" onclick="openFood('carbonara')">查看簡介</button>
+            <button class="btn btn-ghost" onclick="openFood('carbonara','recipe')">看食譜步驟</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="margherita-pizza.jpg" alt="瑪格麗特披薩">
+          <h3>瑪格麗特披薩</h3>
+          <div class="badge-row">
+            <span class="badge">國家：義大利</span>
+            <span class="badge">口味：清爽</span>
+            <span class="badge">偏好：好吃的</span>
+          </div>
+          <p>番茄、起司、羅勒的經典三重奏，越簡單越考功夫。</p>
+          <div class="actions">
+            <button class="btn" onclick="openFood('pizza')">查看簡介</button>
+            <button class="btn btn-ghost" onclick="openFood('pizza','recipe')">看食譜步驟</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 推薦餐廳 -->
+    <section id="restaurants">
+      <div class="section-title">
+        <h2>🏠 推薦餐廳 Restaurants</h2>
+      </div>
+      <div class="rule"></div>
+
+      <div class="cards">
+        <div class="card">
+          <img src="restaurant-beefnoodle.jpg" alt="小巷牛肉麵">
+          <h3>小巷牛肉麵</h3>
+          <div class="badge-row">
+            <span class="badge">類型：台式</span>
+            <span class="badge">推薦：湯頭濃郁</span>
+          </div>
+          <p class="muted">地址：台北市中正區（示範）<br>特色：牛肉軟嫩、湯頭濃郁。</p>
+          <div class="actions">
+            <a class="btn" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8C%97%E5%B8%82%E4%B8%AD%E6%AD%A3%E5%8D%80+%E7%89%9B%E8%82%89%E9%BA%B5">
+              📍 開地圖
+            </a>
+            <button class="btn btn-ghost" onclick="openRestaurant('beefnoodle')">留言評價</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="restaurant-roma.jpg" alt="Roma Trattoria">
+          <h3>Roma Trattoria</h3>
+          <div class="badge-row">
+            <span class="badge">類型：義式</span>
+            <span class="badge">推薦：卡邦那/披薩</span>
+          </div>
+          <p class="muted">地址：台北市（示範）<br>特色：義式氛圍、餐點濃郁。</p>
+          <div class="actions">
+            <a class="btn" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/search/?api=1&query=Roma+Trattoria">
+              📍 開地圖
+            </a>
+            <button class="btn btn-ghost" onclick="openRestaurant('roma')">留言評價</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="restaurant-bing.jpg" alt="餅香坊">
+          <h3>餅香坊</h3>
+          <div class="badge-row">
+            <span class="badge">類型：小吃</span>
+            <span class="badge">推薦：蔥油餅</span>
+          </div>
+          <p class="muted">地址：台北市（示範）<br>特色：平價、外酥內Q。</p>
+          <div class="actions">
+            <a class="btn" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/search/?api=1&query=%E8%94%A5%E6%B2%B9%E9%A4%85+%E5%B0%8F%E5%90%83">
+              📍 開地圖
+            </a>
+            <button class="btn btn-ghost" onclick="openRestaurant('bing')">留言評價</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 關於 -->
+    <section id="about">
+      <div class="section-title">
+        <h2>👨‍🍳 關於餓死鬼</h2>
+      </div>
+      <div class="rule"></div>
+
+      <div class="box">
+        <p class="muted" style="margin:0;">
+          <b>需求 / 目的：</b>品鑑各國美食，幫助人尋找美食。<br>
+          <b>偏好：</b>好吃的（以「值得吃」為優先推薦）。<br>
+          <b>功能：</b>可以看到各種美食資料簡介、知道在哪裡（地圖）、可以留言評論對餐廳的評價。<br><br>
+          小提醒：留言評價目前採用 <b>localStorage</b>（存在你的瀏覽器），不需要後端也能用；但換電腦/清除瀏覽器資料留言會消失。
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    © 2025 餓死鬼｜中西美食介紹 — 吃飽才有力氣讀書 😋
+  </footer>
+
+  <!-- ===== 食物 Modal ===== -->
+  <div id="foodModal" class="modal" onclick="closeByMask(event,'foodModal')">
+    <div class="panel">
+      <div class="panel-head">
+        <h3 id="foodTitle">食物</h3>
+        <button class="close" onclick="closeModal('foodModal')">×</button>
+      </div>
+      <div class="panel-body">
+        <div class="grid2">
+          <div class="box">
+            <h4>資料簡介</h4>
+            <div id="foodIntro" class="muted"></div>
+          </div>
+          <div class="box">
+            <h4>食譜步驟</h4>
+            <div id="foodRecipe" class="muted"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 餐廳評論 Modal ===== -->
+  <div id="restModal" class="modal" onclick="closeByMask(event,'restModal')">
+    <div class="panel">
+      <div class="panel-head">
+        <h3 id="restTitle">餐廳評價</h3>
+        <button class="close" onclick="closeModal('restModal')">×</button>
+      </div>
+      <div class="panel-body">
+        <div class="review-top">
+          <div class="stat">
+            <span class="pill">平均星等：<b id="avgStars">-</b></span>
+            <span class="pill">留言數：<b id="countReviews">0</b></span>
+          </div>
+          <button class="btn btn-ghost" onclick="clearReviews()">清除此餐廳留言</button>
+        </div>
+
+        <div class="box">
+          <h4 style="margin:0 0 8px;">新增留言</h4>
+          <form class="review-form" onsubmit="submitReview(event)">
+            <input id="userName" type="text" placeholder="你的暱稱（可不填）" maxlength="20">
+            <select id="rating" required>
+              <option value="" disabled selected>星等（必填）</option>
+              <option value="5">★★★★★ 5</option>
+              <option value="4">★★★★☆ 4</option>
+              <option value="3">★★★☆☆ 3</option>
+              <option value="2">★★☆☆☆ 2</option>
+              <option value="1">★☆☆☆☆ 1</option>
+            </select>
+
+            <textarea id="comment" class="full" placeholder="寫下你的評價：口味、價格、環境、服務…（必填）" required></textarea>
+
+            <div class="form-actions">
+              <button class="btn" type="submit">送出留言</button>
+              <button class="btn btn-ghost" type="button" onclick="closeModal('restModal')">關閉</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="box" style="margin-top:14px;">
+          <h4 style="margin:0 0 8px;">留言列表</h4>
+          <div id="reviewList" class="review-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== 進站 ===== */
+    function enterSite(){
+      document.getElementById("intro").style.display = "none";
+    }
+    function scrollToTop(){
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    /* ===== 美食資料（可自行改文字） ===== */
+    const foods = {
+      kungpao: {
+        title: "宮保雞丁",
+        intro:
+`國家/風格：台灣/中國（川菜系改良常見）
+特色：花椒＋辣椒的香麻辣，配白飯超加分
+適合：喜歡重口味、想吃很下飯的人`,
+        recipe:
+`1. 雞丁加醬油、米酒、太白粉醃 10 分鐘
+2. 小火爆香花椒、乾辣椒、蒜末
+3. 下雞丁炒至變色，加入醬汁（醬油+醋+糖+少量水）
+4. 加入花生與蔥段，收汁完成`
+      },
+      carbonara: {
+        title: "卡邦那義大利麵",
+        intro:
+`國家：義大利
+特色：蛋黃＋起司的濃郁滑順（傳統不加鮮奶油）
+適合：喜歡濃郁起司香與培根的人`,
+        recipe:
+`1. 煮麵至 8 分熟，保留一些麵水
+2. 煎培根（或培根丁）到微脆出油
+3. 蛋黃＋帕瑪森起司拌勻，加少量麵水調稠度
+4. 麵與培根拌勻後離火，再拌入蛋起司醬，灑黑胡椒`
+      },
+      pizza: {
+        title: "瑪格麗特披薩",
+        intro:
+`國家：義大利
+特色：番茄、起司、羅勒的經典三重奏
+適合：喜歡清爽、重視食材香氣的人`,
+        recipe:
+`1. 麵糰揉好後發酵至 2 倍大
+2. 鋪番茄糊/醬＋莫札瑞拉＋羅勒
+3. 高溫烤 8–10 分鐘至上色
+4. 出爐可加橄欖油提升香氣`
+      }
+    };
+
+    function openFood(key, mode="intro"){
+      const data = foods[key];
+      if(!data) return;
+      document.getElementById("foodTitle").textContent = data.title;
+      document.getElementById("foodIntro").textContent = data.intro;
+      document.getElementById("foodRecipe").textContent = data.recipe;
+      document.getElementById("foodModal").style.display = "block";
+    }
+
+    /* ===== 餐廳評論（localStorage） ===== */
+    const restaurants = {
+      beefnoodle: { name:"小巷牛肉麵" },
+      roma: { name:"Roma Trattoria" },
+      bing: { name:"餅香坊" }
+    };
+
+    let currentRestKey = null;
+
+    function storageKey(restKey){
+      return "reviews_" + restKey;
+    }
+
+    function openRestaurant(restKey){
+      currentRestKey = restKey;
+      const r = restaurants[restKey];
+      document.getElementById("restTitle").textContent = `餐廳評價｜${r ? r.name : "餐廳"}`;
+      document.getElementById("restModal").style.display = "block";
+      renderReviews();
+    }
+
+    function getReviews(){
+      if(!currentRestKey) return [];
+      try{
+        const raw = localStorage.getItem(storageKey(currentRestKey));
+        return raw ? JSON.parse(raw) : [];
+      }catch(e){
+        return [];
+      }
+    }
+
+    function saveReviews(list){
+      if(!currentRestKey) return;
+      localStorage.setItem(storageKey(currentRestKey), JSON.stringify(list));
+    }
+
+    function starsText(n){
+      const num = Number(n) || 0;
+      return "★".repeat(num) + "☆".repeat(5-num);
+    }
+
+    function formatTime(ts){
+      const d = new Date(ts);
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      const day = String(d.getDate()).padStart(2,"0");
+      const hh = String(d.getHours()).padStart(2,"0");
+      const mm = String(d.getMinutes()).padStart(2,"0");
+      return `${y}-${m}-${day} ${hh}:${mm}`;
+    }
+
+    function renderReviews(){
+      const list = getReviews();
+      const wrap = document.getElementById("reviewList");
+      wrap.innerHTML = "";
+
+      // 統計
+      const count = list.length;
+      document.getElementById("countReviews").textContent = count;
+
+      if(count === 0){
+        document.getElementById("avgStars").textContent = "-";
+        wrap.innerHTML = `<div class="muted">目前還沒有留言，來當第一個評價的人吧！</div>`;
+        return;
+      }
+
+      const avg = (list.reduce((s,x)=>s+Number(x.rating||0),0)/count).toFixed(1);
+      document.getElementById("avgStars").textContent = avg;
+
+      // 顯示（新到舊）
+      [...list].reverse().forEach(item=>{
+        const div = document.createElement("div");
+        div.className = "review-item";
+        div.innerHTML = `
+          <div class="meta">
+            <div class="left">
+              <span class="pill"><b>${item.name ? escapeHtml(item.name) : "匿名"}</b></span>
+              <span class="pill stars">${starsText(item.rating)}（${item.rating}）</span>
+            </div>
+            <span class="pill">${formatTime(item.time)}</span>
+          </div>
+          <div class="text">${escapeHtml(item.comment)}</div>
+        `;
+        wrap.appendChild(div);
+      });
+    }
+
+    function submitReview(e){
+      e.preventDefault();
+      if(!currentRestKey) return;
+
+      const name = document.getElementById("userName").value.trim();
+      const rating = document.getElementById("rating").value;
+      const comment = document.getElementById("comment").value.trim();
+
+      if(!rating || !comment){
+        alert("請填星等與留言內容喔！");
+        return;
+      }
+
+      const list = getReviews();
+      list.push({
+        name: name || "匿名",
+        rating: Number(rating),
+        comment,
+        time: Date.now()
+      });
+      saveReviews(list);
+
+      // 清空表單
+      document.getElementById("userName").value = "";
+      document.getElementById("rating").value = "";
+      document.getElementById("comment").value = "";
+
+      renderReviews();
+    }
+
+    function clearReviews(){
+      if(!currentRestKey) return;
+      const ok = confirm("確定要清除這間餐廳的所有留言嗎？（只會清除你這台電腦/瀏覽器的資料）");
+      if(!ok) return;
+      localStorage.removeItem(storageKey(currentRestKey));
+      renderReviews();
+    }
+
+    /* ===== Modal 開關 ===== */
+    function closeModal(id){
+      document.getElementById(id).style.display = "none";
+    }
+    function closeByMask(e, id){
+      if(e.target && e.target.id === id){
+        closeModal(id);
+      }
+    }
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape"){
+        closeModal("foodModal");
+        closeModal("restModal");
+      }
+    });
+
+    /* ===== 安全：避免留言插入 HTML ===== */
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+  </script>
 </body>
 </html>
